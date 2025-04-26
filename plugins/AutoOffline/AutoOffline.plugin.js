@@ -1,6 +1,6 @@
 /**
  * @name AutoOffline
- * @version 1.0.1
+ * @version 1.0.2
  * @author Kamiikaze
  * @authorId 141851936168214528
  * @description Automatically sets your Discord status to online on app start and invisible on app quit.
@@ -18,7 +18,7 @@ const UserSettingsProtoUtils = BdApi.Webpack.getModule(
 module.exports = class AutoOffline {
 	constructor(meta) {
 		this.meta = meta;
-		this.currentUserStatus = 'invisible'
+		this.currentUserStatus = 'invisible';
 		this.listenerAdded = false;
 		this.handleUnload = this.handleUnload.bind(this);
 	}
@@ -30,6 +30,7 @@ module.exports = class AutoOffline {
 		
 		if (!this.listenerAdded) {
 			window.addEventListener("beforeunload", this.handleUnload);
+			this.listenerAdded = true;
 		}
 	}
 
@@ -66,6 +67,7 @@ module.exports = class AutoOffline {
 				},
 				0
 			);
+			console.log("Status changed: " + newStatus);
 			BdApi.UI.showToast("Status changed: " + newStatus, {type:"success"});
 		} catch (error) {
 			console.error("ERRORS.ERROR_UPDATING_USER_STATUS", error);
